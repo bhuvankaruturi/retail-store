@@ -20,4 +20,8 @@ router.post('/signup', function(req, res, next) {
   });
 });
 
+router.get('/items', function(req, res, next) {
+  res.render('items');
+});
+
 module.exports = router;
