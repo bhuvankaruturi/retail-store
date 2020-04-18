@@ -1,17 +1,21 @@
-var createError = require('http-errors');
 var express = require('express');
+var expressSession = require('express-session');
 var path = require('path');
-var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var mongoose = require('mongoose');
 var passport = require('passport');
+var bodyParser = require('body-parser');
 var LocalStrategy = require('passport-local');
 var User = require('./models/user');
 
-mongoose.connect('mongodb://127.0.0.1:27017/', {useNewUrlParser: true, useUnifiedTopology: true});
-
+// Routes import
 var indexRouter = require('./routes/index');
-var loginRouter = require('./routes/login');
+var itemsRouter = require('./routes/items');
+var cartRouter = require('./routes/cart');
+
+// connect to database retail_store
+var mongooseOptions =  {useCreateIndex: true, useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false}
+mongoose.connect('mongodb://127.0.0.1:27017/retail_store', mongooseOptions);
 
 var app = express();
 
@@ -21,35 +25,37 @@ app.set('view engine', 'ejs');
 
 app.use(logger('dev'));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
+// express-session to maintain session ids
+app.use(expressSession({
+  secret: "does not matter what I set this to",
+  resave: false,
+  saveUninitialized: false
+}));
 app.use(express.static(path.join(__dirname, '/public')));
-
-app.use(passport.initialize());
-app.use(passport.session());
+// bodyParser
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
 // Passport Configuration
+app.use(passport.initialize());
+app.use(passport.session());
 passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-app.use('/', indexRouter);
-app.use('/login',loginRouter);
-
-// catch 404 and forward to error handler
+// populate res.locals to use them in ejs templates
 app.use(function(req, res, next) {
-  next(createError(404));
-});
+  res.locals.user = req.user;
+  next();
+})
 
-// error handler
-app.use(function(err, req, res) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+app.use('/', indexRouter);
+app.use('/items', itemsRouter);
+app.use('/cart', cartRouter);
 
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
+app.use(function(req, res, next) {
+  res.status(404);
+  next("Not found");
 });
 
 module.exports = app;

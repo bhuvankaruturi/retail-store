@@ -1,31 +1,71 @@
 var express = require('express');
 var router = express.Router();
 var User = require('../models/user');
+var Cart = require('../models/cart');
+var History = require('../models/history');
 var passport = require('passport');
 
 router.get('/', function(req, res, next) {
   res.render('main', { title: 'Best clothing store' });
 });
 
+// TODO: modify method to render a signup form
+router.get('/signup', function(req, res) {
+  res.status(200).json({message: 'Please register'});
+});
+
 /* Register a user */
-router.post('/signup', function(req, res, next) {
-  User.register(new User({username: req.body.username}), req.body.password, function(err, user) {
+router.post('/signup', function(req, res) {
+  let user = new User({
+        username: req.body.username, 
+        firstname: req.body.firstname, 
+        lastname: req.body.lastname 
+      });
+  User.register(user, req.body.password, function(err, user) {
     if (err) {
       console.log(err);
-      return next(err);
+      return res.redirect('/signup');
     }
-    passport.authenticate('local')(req, res, function(){
-      res.render("items/index", {username: req.body.username});
+    var userCart = new Cart({
+      userid: user._id,
+      items: []
+    });
+    var userHistory = new History({
+      userid: user._id,
+      items: []
+    });
+    userCart.save(function(err) {
+      if (err) {
+        console.log(err);
+      }
+      userHistory.save(function(err) {
+        if (err) {
+          console.log(err);
+        }
+        passport.authenticate('local')(req, res, function(){
+          res.redirect("/items");
+        });
+      })
     });
   });
 });
 
-router.get('/items', function(req, res, next) {
-  res.render('items');
+// TODO: modify method to render a login form
+router.get('/login', function(req, res) {
+  res.status(200).json({message: 'Please login in'});
 });
 
-router.get('/cart', function(req, res, next) {
-  res.render('cart');
+/* Authenticate and login a user */
+router.post('/login', function(req, res) {
+  let options = {successRedirect: '/items', failureRedirect: '/login'}
+  passport.authenticate('local', options)(req, res);
+});
+
+/* Logout a user */
+// TODO: implement redirection to /items page
+router.get('/logout', function(req, res) {
+  req.logout();
+  res.status(200).json({message: 'Successfully logged out'});
 });
 
 module.exports = router;
