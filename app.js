@@ -4,6 +4,7 @@ var path = require('path');
 var logger = require('morgan');
 var mongoose = require('mongoose');
 var passport = require('passport');
+var bodyParser = require('body-parser');
 var LocalStrategy = require('passport-local');
 var User = require('./models/user');
 
@@ -29,14 +30,15 @@ app.use(expressSession({
   secret: "does not matter what I set this to",
   resave: false,
   saveUninitialized: false
-}))
-app.use(express.urlencoded({ extended: false }));
+}));
 app.use(express.static(path.join(__dirname, '/public')));
-
-app.use(passport.initialize());
-app.use(passport.session());
+// bodyParser
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
 // Passport Configuration
+app.use(passport.initialize());
+app.use(passport.session());
 passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
