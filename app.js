@@ -10,9 +10,11 @@ var User = require('./models/user');
 // Routes import
 var indexRouter = require('./routes/index');
 var itemsRouter = require('./routes/items');
+var cartRouter = require('./routes/cart');
 
 // connect to database retail_store
-mongoose.connect('mongodb://127.0.0.1:27017/retail_store', {useCreateIndex: true, useNewUrlParser: true, useUnifiedTopology: true});
+var mongooseOptions =  {useCreateIndex: true, useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false}
+mongoose.connect('mongodb://127.0.0.1:27017/retail_store', mongooseOptions);
 
 var app = express();
 
@@ -47,6 +49,7 @@ app.use(function(req, res, next) {
 
 app.use('/', indexRouter);
 app.use('/items', itemsRouter);
+app.use('/cart', cartRouter);
 
 app.use(function(req, res, next) {
   res.status(404);

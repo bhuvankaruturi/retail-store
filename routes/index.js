@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var User = require('../models/user');
+var Cart = require('../models/cart');
 var passport = require('passport');
 
 router.get('/', function(req, res, next) {
@@ -24,8 +25,17 @@ router.post('/signup', function(req, res) {
       console.log(err);
       return res.redirect('/signup');
     }
-    passport.authenticate('local')(req, res, function(){
-      res.redirect("/items");
+    var userCart = new Cart({
+      userid: user._id,
+      items: []
+    });
+    userCart.save(function(err) {
+      if (err) {
+        console.log(err);
+      }
+      passport.authenticate('local')(req, res, function(){
+        res.redirect("/items");
+      });
     });
   });
 });
