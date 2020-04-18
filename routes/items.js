@@ -2,6 +2,8 @@ var fs = require('fs');
 var express = require('express');
 var mongoose = require('mongoose');
 var path = require('path');
+// authentication middleware
+var authObj = require('../util/auth');
 // multer for image upload
 var multer  = require('multer')
 // mongoose models
@@ -25,7 +27,7 @@ var upload = multer({ storage: storage})
 
 // TODO: replace json response with res.render
 router.get('/', function(req, res, next) {
-    Item.find().exec(function(err, docs){
+    Item.find().populate('sizes').exec(function(err, docs){
         if (err) {
             err = "Something went wrong while fetching items";
             return next(err);
@@ -36,7 +38,7 @@ router.get('/', function(req, res, next) {
 
 // TODO: replace json response with res.render
 router.get('/:id', function(req, res, next) {
-    Item.findById(req.params.id, function(err, doc) {
+    Item.findById(req.params.id).populate('sizes').exec(function(err, doc) {
         if (err) {
             err = "Something went wrong while fetching the item";
             return next(err);
@@ -46,7 +48,7 @@ router.get('/:id', function(req, res, next) {
 })
 
 // Create a new item with all item size of count 1
-router.post('/add', upload.single('item_image'), function(req, res, next){
+router.post('/add', authObj.isAdmin, upload.single('item_image'), function(req, res, next){
     var item = new Item({
         _id: new mongoose.Types.ObjectId(),
         itemname: req.body.itemname,
@@ -81,14 +83,15 @@ router.post('/add', upload.single('item_image'), function(req, res, next){
 });
 
 // Update a item
-router.put('/:id', upload.single('item_image'), function(req, res, next) {
+router.put('/:id', authObj.isAdmin, upload.single('item_image'), function(req, res, next) {
     if (req.file) {
-        fs.unlink(path.join(path.resolve(__dirname, '..'), '/public/images/items/', req.body.imageUrl), function(err) {
-            if (err) console.log(err);
-        });
+        if (req.body.imageUrl) {
+            fs.unlink(path.join(path.resolve(__dirname, '..'), '/public/images/items/', req.body.imageUrl), function(err) {
+                if (err) console.log(err);
+            });
+        }
         req.body.imageUrl = req.file.filename;
     }
-    console.log(req.body);
     Item.findByIdAndUpdate(req.params.id, req.body, function(err, item){
         if (err) {
             err = "Something went wrong while updating the item";
@@ -98,8 +101,23 @@ router.put('/:id', upload.single('item_image'), function(req, res, next) {
     });
 });
 
+// Update item size
+router.put('/:id/:size', authObj.isAdmin, function(req, res, next) {
+    let newSizeItem = {
+        count: Number(req.body.count) < 0 ? 0 : Number(req.body.count)
+    }
+    console.log(req.body);
+    Size.findOneAndUpdate({itemid: req.params.id, size: req.params.size}, newSizeItem, function(err, size) {
+        if (err) {
+            err = "Something went wrong while updating item count";
+            return next(err);
+        }
+        return res.redirect('/items');
+    });
+})
+
 // Delete a item
-router.delete('/:id', function(req, res, next) {
+router.delete('/:id', authObj.isAdmin, function(req, res, next) {
     Item.findById(req.params.id, function(err, doc){
         if (err) {
             err = "Something went wrong while deleting the item";

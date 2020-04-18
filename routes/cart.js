@@ -2,6 +2,7 @@ var express = require('express');
 var authObj = require('../util/auth');
 var Cart = require('../models/cart');
 var Item = require('../models/item');
+var History = require('../models/history');
 // express router
 var router = express.Router();
 
@@ -14,6 +15,17 @@ router.get('/', authObj.isLoggedIn, function(req, res, next){
         }
         return res.status(200).json(doc);
    });
+});
+
+// TODO: replace json response with res.render
+router.get('/history', authObj.isLoggedIn, function(req, res, next){
+    History.findOne({userid: req.user._id}, function(err, doc){
+        if (err) {
+            err = "Something went wrong while retrieving user's purchase history";
+            return next(err);
+        }
+        return res.status(200).json(doc);
+    });
 });
 
 // add an item to cart
@@ -72,6 +84,41 @@ router.delete('/', authObj.isLoggedIn, function(req, res, next) {
         }
         res.redirect('/cart');
     });
+});
+
+// purchase route - add all items in card to history
+router.post('/purchase', authObj.isLoggedIn, function(req, res, next) {
+    Cart.findOne({userid: req.user._id}, function (err, cart) {
+        if (err) {
+            err = "Cannot complete the order now";
+            return next(err);
+        } 
+        if (cart.items.length <= 0) {
+            res.redirect('/cart');
+        }
+        History.findOne({userid: req.user._id}, function(err, history){
+            for (var cartItem of cart.items) {
+                history.items.push({
+                    itemid: cartItem.itemid,
+                    quantity: cartItem.quantity,
+                    date: Date.now()
+                });
+            }
+            cart.update({items: []}, function(err, cart) {
+                if (err) {
+                    err = "Cannot complete the order now";
+                    return next(err);
+                }
+                history.save(function(err) {
+                    if (err) {
+                        err = "Something went wrong while adding items to history";
+                        return next(err);
+                    }
+                    res.redirect('/cart/history');
+                });
+            });
+        })
+    })
 });
 
 module.exports = router;
