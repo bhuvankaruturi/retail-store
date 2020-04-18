@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bootstrap Clean Modal Login Modal Form</title>
+<link href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round" rel="stylesheet">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<style type="text/css">
+    body {
+		font-family: 'Varela Round', sans-serif;
+	}
+	.modal-login {
+		width: 350px;
+	}
+	.modal-login .modal-content {
+		padding: 20px;
+		border-radius: 1px;
+		border: none;
+	}
+	.modal-login .modal-header {
+		border-bottom: none;
+        position: relative;
+		justify-content: center;
+	}
+	.modal-login h4 {
+		text-align: center;
+		font-size: 26px;
+	}
+    .modal-login .form-group {
+        margin-bottom: 20px;
+    }
+	.modal-login .form-control, .modal-login .btn {
+		min-height: 40px;
+		border-radius: 30px; 
+        font-size: 15px;
+        transition: all 0.5s;
+	}
+    .modal-login .form-control {
+        font-size: 13px;
+    }
+    .modal-login .form-control:focus {
+        border-color: #a177ff;
+    }
+	.modal-login .hint-text {
+		text-align: center;
+		padding-top: 10px;
+	}
+	.modal-login .close {
+        position: absolute;
+		top: -5px;
+		right: -5px;
+	}
+	.modal-login .btn {
+		background: #77b2ff;
+		border: none;
+		line-height: normal;
+	}
+	.modal-login .btn:hover, .modal-login .btn:focus {
+		background: #8753ff;
+	}
+	.modal-login .hint-text a {
+		color: #999;
+	}
+	.trigger-btn {
+		display: inline-block;
+		margin: 100px auto;
+	}
+</style>
+</head>
+<body>
+  
+  <nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#">Dresss-IT</a>
+      </div>
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="#">Home</a></li>
+        <li><a href="#">Page 1</a></li>
+        <li><a href="/items">View Items</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="#myModalsignup" data-toggle="modal"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+        <li><a href="#myModal"  data-toggle="modal"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+      </ul>
+    </div>
+  </nav>
+<!-- <div class="text-center">
+	Button HTML (to Trigger Modal) -->
+	<!-- <a href="#myModal" class="trigger-btn" data-toggle="modal">Click to Open Login Modal</a> -->
+</div>
+
+<!-- Modal HTML -->
+
+<div id="myModal" class="modal fade">
+	<div class="modal-dialog modal-login">
+		<div class="modal-content">
+			<div class="modal-header">				
+				<h4 class="modal-title">Log In</h4>
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+			</div>
+			<div class="modal-body">
+				<form action="/examples/actions/confirmation.php" method="post">
+					<div class="form-group">
+						<input type="text" class="form-control" placeholder="Username" required="required">
+					</div>
+					<div class="form-group">
+						<input type="password" class="form-control" placeholder="Password" required="required">
+					</div>
+					<div class="form-group">
+						<input type="submit" class="btn btn-primary btn-block btn-lg" value="Sign in">
+					</div>
+				</form>				
+				<p class="hint-text small"><a href="#">Forgot Your Password?</a></p>
+			</div>
+		</div>
+	</div>
+</div>     
+
+<!--Sign up-->
+
+<div id="myModalsignup" class="modal fade">
+	<div class="modal-dialog modal-login">
+		<div class="modal-content">
+			<div class="modal-header">				
+				<h4 class="modal-title">Sign Up</h4>
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+			</div>
+			<div class="modal-body">
+				<form action="/examples/actions/confirmation.php" method="post">
+					<div class="form-group">
+						<input type="text" class="form-control" placeholder="Username" required="required">
+          </div>
+          <div class="form-group">
+						<input type="text" class="form-control" placeholder="FirstName" required="required">
+          </div>
+          <div class="form-group">
+						<input type="text" class="form-control" placeholder="LastName" required="required">
+					</div>
+					<div class="form-group">
+						<input type="password" class="form-control" placeholder="Password" required="required">
+					</div>
+					<div class="form-group">
+						<input type="submit" class="btn btn-primary btn-block btn-lg" value="Sign Up">
+					</div>
+				</form>				
+				<p class="hint-text small"><a href="#">Forgot Your Password?</a></p>
+			</div>
+		</div>
+	</div>
+</div>
+
+</body>
+</html>                            
