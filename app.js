@@ -1,4 +1,3 @@
-var createError = require('http-errors');
 var express = require('express');
 var expressSession = require('express-session');
 var path = require('path');
@@ -8,10 +7,12 @@ var passport = require('passport');
 var LocalStrategy = require('passport-local');
 var User = require('./models/user');
 
+// Routes import
 var indexRouter = require('./routes/index');
 var itemsRouter = require('./routes/items');
 
-mongoose.connect('mongodb://127.0.0.1:27017/', {useCreateIndex: true, useNewUrlParser: true, useUnifiedTopology: true});
+// connect to database retail_store
+mongoose.connect('mongodb://127.0.0.1:27017/retail_store', {useCreateIndex: true, useNewUrlParser: true, useUnifiedTopology: true});
 
 var app = express();
 
@@ -47,19 +48,9 @@ app.use(function(req, res, next) {
 app.use('/', indexRouter);
 app.use('/items', itemsRouter);
 
-// catch 404 and forward to error handler
 app.use(function(req, res, next) {
-  next(createError(404));
-});
-
-// error handler
-app.use(function(err, req, res) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
+  res.status(404);
+  next("Not found");
 });
 
 module.exports = app;
