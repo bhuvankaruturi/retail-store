@@ -25,25 +25,25 @@ var storage = multer.diskStorage({
 });
 var upload = multer({ storage: storage})
 
-// TODO: replace json response with res.render
+// items pages
 router.get('/', function(req, res, next) {
     Item.find().populate('sizes').exec(function(err, docs){
         if (err) {
             err = "Something went wrong while fetching items";
             return next(err);
         } 
-        return res.status(200).json(docs);
+        return res.render('items/index', {items: docs})
     });
 });
 
-// TODO: replace json response with res.render
+// individual item page
 router.get('/:id', function(req, res, next) {
     Item.findById(req.params.id).populate('sizes').exec(function(err, doc) {
         if (err) {
             err = "Something went wrong while fetching the item";
             return next(err);
         }
-        return res.status(200).json(doc);
+        return res.render('items/item', {item: doc});
     });
 })
 
@@ -53,6 +53,7 @@ router.post('/add', authObj.isAdmin, upload.single('item_image'), function(req, 
         _id: new mongoose.Types.ObjectId(),
         itemname: req.body.itemname,
         description: req.body.description || "",
+        category: req.body.category,
         price: req.body.price,
         imageUrl: req.file.filename || 'default.jpg'
     });

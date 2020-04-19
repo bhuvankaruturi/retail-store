@@ -1,10 +1,16 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Online Clothing</title>
-    </head>
-    <body>
-        <h1>You have successfully logged in!</h1>
-        <% if (user) { %><h2>Welcome <%=user.firstname%>, <%=user.lastname%></h2><% } %>
-    </body>
-</html>
+<%- include('../partials/header') %>
+    <div class="container">
+        <div class="row">
+            <% items.forEach(item => { %>
+                <div class="card" style="width: 15rem;">
+                    <img src="/images/items/<%=item.imageUrl%>" class="card-img-top img-thumbnail" alt="item image">
+                    <div class="card-body">
+                      <h5 class="card-title"><%=item.itemname%></h5>
+                      <p class="card-text"><%=item.description%></p>
+                      <a href="/items/<%=item._id%>" class="btn btn-primary">View</a>
+                    </div>
+                </div>
+            <% }) %>
+        </div>
+    </div>
+<%- include('../partials/footer') %>

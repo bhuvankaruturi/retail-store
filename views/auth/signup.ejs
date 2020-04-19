@@ -1,0 +1,26 @@
+<%- include('../partials/header') %>
+    <div class="container">
+        <div class="row">
+        <form class="auth-form col-4" action="/signup" method="POST">
+            <div class="form-group">
+                <label for="username">User Name</label>
+                <input type="text" class="form-control" id="username" aria-describedby="usernamehelp" placeholder="johndoe" name="username">
+                <small id="usernamehelp" class="form-text text-muted">This will identify you</small>
+            </div>
+            <div class="form-group">
+                <label for="firstname">First Name</label>
+                <input type="text" class="form-control" id="firstname" placeholder="John" name="firstname">
+            </div>
+            <div class="form-group">
+                <label for="lastname">Last Name</label>
+                <input type="text" class="form-control" id="lastname" placeholder="Doe" name="lastname">
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" class="form-control" id="password" name="password">
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+        </div>
+    </div>
+<%- include('../partials/footer') %>
