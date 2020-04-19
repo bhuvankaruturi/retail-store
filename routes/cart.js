@@ -30,7 +30,10 @@ router.get('/history', authObj.isLoggedIn, function(req, res, next){
 
 // add an item to cart
 router.post('/', authObj.isLoggedIn, function(req, res, next){
+<<<<<<< HEAD
     console.log(req.body);
+=======
+>>>>>>> master
     Item.exists({_id: req.body.id}, function(err, exists) {
         if (err) {
             err = "Item not found";
@@ -44,23 +47,35 @@ router.post('/', authObj.isLoggedIn, function(req, res, next){
                 }
                 var cartItem = {
                     itemid: req.body.id,
+<<<<<<< HEAD
                     size: req.body.size,
                     quantity: req.body.quantity || 1,
                     date: Date.now()
                 };
                 console.log(cart);
+=======
+                    quantity: req.body.quantity || 1,
+                    date: Date.now()
+                };
+>>>>>>> master
                 cart.items.push(cartItem);
                 cart.save(function(err) {
                     if (err) {
                         err = "Something went wrong while adding item to cart";
                         return next(err);
                     }
+<<<<<<< HEAD
                     return res.redirect('/cart');
                 });
             });
         } else {
             err = "Item not found";
             return next(err);
+=======
+                    res.redirect('/cart');
+                });
+            });
+>>>>>>> master
         }
     });
 });
@@ -69,7 +84,10 @@ router.post('/', authObj.isLoggedIn, function(req, res, next){
 router.put('/', authObj.isLoggedIn, function(req, res, next) {
     var modifiedCartItem = {'$set': {
         'items.$.quantity': req.body.quantity,
+<<<<<<< HEAD
         'items.$.size': req.body.size,
+=======
+>>>>>>> master
         'items.$.date': Date.now()
     }};
     Cart.findOneAndUpdate({userid: req.user._id, 'items._id': req.body.id}, modifiedCartItem, function(err, cart) {
@@ -108,7 +126,10 @@ router.post('/purchase', authObj.isLoggedIn, function(req, res, next) {
                 history.items.push({
                     itemid: cartItem.itemid,
                     quantity: cartItem.quantity,
+<<<<<<< HEAD
                     size: cartItem.size,
+=======
+>>>>>>> master
                     date: Date.now()
                 });
             }
