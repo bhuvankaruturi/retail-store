@@ -47,7 +47,6 @@ router.post('/', authObj.isLoggedIn, function(req, res, next){
                     quantity: req.body.quantity || 1,
                     date: Date.now()
                 };
-                console.log(cart);
                 cart.items.push(cartItem);
                 cart.save(function(err) {
                     if (err) {
