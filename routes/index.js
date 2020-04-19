@@ -9,9 +9,9 @@ router.get('/', function(req, res, next) {
   res.render('main', { title: 'Best clothing store' });
 });
 
-// TODO: modify method to render a signup form
+// signup page
 router.get('/signup', function(req, res) {
-  res.status(200).json({message: 'Please register'});
+  return res.render('auth/signup');
 });
 
 /* Register a user */
@@ -50,9 +50,9 @@ router.post('/signup', function(req, res) {
   });
 });
 
-// TODO: modify method to render a login form
+// login page
 router.get('/login', function(req, res) {
-  res.status(200).json({message: 'Please login in'});
+  return res.render('auth/login');
 });
 
 /* Authenticate and login a user */
@@ -62,10 +62,9 @@ router.post('/login', function(req, res) {
 });
 
 /* Logout a user */
-// TODO: implement redirection to /items page
 router.get('/logout', function(req, res) {
   req.logout();
-  res.status(200).json({message: 'Successfully logged out'});
+  return res.redirect('/items');
 });
 
 module.exports = router;

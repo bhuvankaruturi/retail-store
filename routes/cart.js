@@ -30,6 +30,7 @@ router.get('/history', authObj.isLoggedIn, function(req, res, next){
 
 // add an item to cart
 router.post('/', authObj.isLoggedIn, function(req, res, next){
+    console.log(req.body);
     Item.exists({_id: req.body.id}, function(err, exists) {
         if (err) {
             err = "Item not found";
@@ -43,18 +44,23 @@ router.post('/', authObj.isLoggedIn, function(req, res, next){
                 }
                 var cartItem = {
                     itemid: req.body.id,
+                    size: req.body.size,
                     quantity: req.body.quantity || 1,
                     date: Date.now()
                 };
+                console.log(cart);
                 cart.items.push(cartItem);
                 cart.save(function(err) {
                     if (err) {
                         err = "Something went wrong while adding item to cart";
                         return next(err);
                     }
-                    res.redirect('/cart');
+                    return res.redirect('/cart');
                 });
             });
+        } else {
+            err = "Item not found";
+            return next(err);
         }
     });
 });
@@ -63,6 +69,7 @@ router.post('/', authObj.isLoggedIn, function(req, res, next){
 router.put('/', authObj.isLoggedIn, function(req, res, next) {
     var modifiedCartItem = {'$set': {
         'items.$.quantity': req.body.quantity,
+        'items.$.size': req.body.size,
         'items.$.date': Date.now()
     }};
     Cart.findOneAndUpdate({userid: req.user._id, 'items._id': req.body.id}, modifiedCartItem, function(err, cart) {
@@ -101,6 +108,7 @@ router.post('/purchase', authObj.isLoggedIn, function(req, res, next) {
                 history.items.push({
                     itemid: cartItem.itemid,
                     quantity: cartItem.quantity,
+                    size: cartItem.size,
                     date: Date.now()
                 });
             }

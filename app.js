@@ -43,14 +43,7 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-<<<<<<< HEAD
 // populate res.locals to use them in ejs templates
-=======
-app.use('/', indexRouter);
-app.use('/login',loginRouter);
-
-// catch 404 and forward to error handler
->>>>>>> b7a3d0ac7c744357cbef945cdf9ec4d8841be4c5
 app.use(function(req, res, next) {
   res.locals.user = req.user;
   next();
