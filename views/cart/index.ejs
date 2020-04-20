@@ -12,9 +12,9 @@
                         <div class="card-body">
                           <div class="d-flex justify-content-between">
                             <h5 class="card-title"><%=i.itemname%></h5>
-                            <button class="btn btn-sm del-cart" __val="<%=item._id%>"><img src="/icons/bin.svg" alt="del"/></button>
+                            <button class="btn btn-sm del-cart" __val="<%=item._id%>"><img src="/icons/bin.svg" class="icon" alt="del"/></button>
                           </div>
-                          <p class="card-text"><%=moment(item.date).format('MMM-DD-YYYY')%></p>
+                          <p class="card-text"><small class="text-muted"><%=moment(item.date).format('MMM-DD-YYYY')%></small></p>
                           <p class="card-text"><%=i.description%></p>
                           <p class="card-text">$<%=i.price%></p>
                           <p class="card-text">Size: <%=item.size%>, Quantity: <%=item.quantity%></p>

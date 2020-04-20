@@ -1,10 +1,10 @@
 <%- include('../partials/header') %>
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-4">
-                <img src="" id="uploaded_img"/>
+            <div class="col-6">
+                <img src="/images/items/default.jpg" id="uploaded_img"/>
             </div>
-            <div class="col-4">
+            <div class="col-5">
             <h2>Add a new Item to the collection</h2>
             <form action="/items/add" method="POST" enctype="multipart/form-data">
                 <div class="form-group">
@@ -41,7 +41,6 @@
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
             </div>
-            <div class="col-3"></div>
         </div>
     </div>
 <%- include('../partials/footer') %>
