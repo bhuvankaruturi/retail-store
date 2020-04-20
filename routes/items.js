@@ -8,7 +8,6 @@ var authObj = require('../util/auth');
 var multer  = require('multer')
 // mongoose models
 var Item = require('../models/item');
-var Size = require('../models/size');
 // valid size for item
 var sizes = require('../util/sizes');
 
@@ -25,14 +24,39 @@ var storage = multer.diskStorage({
 });
 var upload = multer({ storage: storage})
 
-// items pages
 router.get('/', function(req, res, next) {
-    Item.find({deleted: false}).populate('sizes').exec(function(err, docs){
-        if (err) {
-            err = "Something went wrong while fetching items";
-            return next(err);
-        } 
-        return res.render('items/index', {items: docs})
+    return res.redirect('items/1');
+})
+
+// items pages
+router.get('/:page', function(req, res, next) {
+    if (req.params.page === 'add') {
+        return next();
+    }
+    if (isNaN(req.params.page)) {
+        return res.redirect('items/1');
+    }
+    var itemsPerPage = 4;
+    var page = Number(req.params.page) || 1;
+    Item.find({deleted: false})
+        .skip(itemsPerPage * (page-1))
+        .limit(itemsPerPage)
+        .exec(function(err, docs){
+            if (err) {
+                err = "Something went wrong while fetching items";
+                return next(err);
+            } 
+            Item.count().exec(function(err, count) {
+                if (err) {
+                    err = "Something went wrong while counting items";
+                    return next(err);
+                }
+                return res.render('items/index', {
+                        items: docs, page: 
+                        req.params.page, maxPages: 
+                        Math.ceil(count/itemsPerPage)
+                    });
+            });
     });
 });
 
@@ -53,8 +77,8 @@ router.get('/edit/:id', authObj.isAdmin, function(req, res, next) {
 })
 
 // individual item page
-router.get('/:id', function(req, res, next) {
-    Item.findOne({_id: req.params.id, deleted: false}).populate('sizes').exec(function(err, doc) {
+router.get('/view/:id', function(req, res, next) {
+    Item.findOne({_id: req.params.id, deleted: false}, function(err, doc) {
         if (err) {
             err = "Something went wrong while fetching the item";
             return next(err);
@@ -72,31 +96,18 @@ router.post('/add', authObj.isAdmin, upload.single('item-image'), function(req, 
         category: req.body.category,
         price: req.body.price,
         imageUrl: req.file ? req.file.filename : 'default.jpg',
-        deleted: false
+        deleted: false,
+        sizes: {}
     });
-    var itemSizes = [];
     for (var size of sizes) {
-        let newItemSize = new Size({
-            _id: new mongoose.Types.ObjectId(),
-            itemid: item._id,
-            size: size,
-            count: 1
-        });
-        item.sizes.push(newItemSize._id);
-        itemSizes.push(newItemSize);
+        item.sizes[size] = 1;
     }
     item.save(function(err) {
         if (err) {
             err = "Something went wrong while adding items";
             return next(err);
         } 
-        Size.create(itemSizes, function(err) {
-            if (err) {
-                err = "Something went wrong while adding item sizes";
-                return next(err);
-            }  
-            res.redirect('/items');
-        });
+        return res.redirect('/items/1');
     });
 });
 
@@ -115,22 +126,27 @@ router.put('/edit/:id', authObj.isAdmin, upload.single('item-image'), function(r
             err = "Something went wrong while updating the item";
             return next(err);
         }
-        res.redirect('/items');
+        return res.redirect('/items/1');
     });
 });
 
 // Update item size
-router.put('/:id/:size', authObj.isAdmin, function(req, res, next) {
-    let newSizeItem = {
-        count: Number(req.body.count) < 0 ? 0 : Number(req.body.count)
+router.put('/edit/:id/sizes', authObj.isAdmin, function(req, res, next) {
+    if (req.body.sizes) {
+        for (let size of Object.keys(req.body.sizes)) {
+            if (req.body.sizes[size] < 0) req.body.sizes[size] = 1;
+            else if (req.body.sizes[size] > 200) req.body.sizes[size] = 200;
+        }
+    } else {
+        err = "Bad request. Must contain item sizes";
+        return res.status(400).json({err});
     }
-    console.log(req.body);
-    Size.findOneAndUpdate({itemid: req.params.id, size: req.params.size}, newSizeItem, function(err, size) {
+    Item.findOneAndUpdate({itemid: req.params.id, deleted: false}, {sizes: req.body.sizes}, function(err, size) {
         if (err) {
             err = "Something went wrong while updating item count";
             return next(err);
         }
-        return res.redirect('/items');
+        return res.redirect('/items/1');
     });
 })
 

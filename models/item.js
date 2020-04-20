@@ -7,12 +7,13 @@ var Item = mongoose.Schema({
     price: {type: Number},
     imageUrl: {type: String, default: '/images/default.jpg'},
     deleted: {type: Boolean, default: false},
-    sizes: [
-        {
-            type: mongoose.Schema.Types.ObjectId, 
-            ref: 'Size'
-        }
-    ]
+    sizes: {
+        'XL': {type: Number, min: 1, max: 200, default: 1},
+        'L': {type: Number, min: 1, max: 200, default: 1},
+        'M': {type: Number, min: 1, max: 200, default: 1},
+        'S': {type: Number, min: 1, max: 200, default: 1},
+        'XS': {type: Number, min: 1, max: 200, default: 1},
+    }
 });
 
 module.exports = mongoose.model('Item', Item);

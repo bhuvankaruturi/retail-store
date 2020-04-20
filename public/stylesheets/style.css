@@ -8,16 +8,24 @@
 }
 
 .card {
-  margin-left: 20px;
+  margin: 0 10px;
 }
 
 .card-img-top {
   height: 250px;
 }
 
-.details {
-  padding-top: 3rem;
+.img-fluid {
+  border: 1px solid black;
+  min-width: 300px;
+  min-height: 300px;
+  max-width: 500px;
+  max-height: 500px;
 }
+
+/* .details {
+  padding-top: 3rem;
+} */
 
 .cart-img {
   width: 135px;
@@ -25,6 +33,27 @@
 }
 
 #uploaded_img {
-  max-width: 200px;
-  max-height: 250px;
+  max-width: 400px;
+  max-height: 450px;
+}
+
+.pagination {
+  padding: 5rem;
+}
+
+.pagination > span {
+  margin: auto 10px;
+}
+
+.icon {
+  width: 20x;
+  height: 20px;
+}
+
+.cart-title {
+  padding-top: 2em;
+}
+
+.del-cart {
+  padding-top: 0em;
 }

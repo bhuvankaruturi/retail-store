@@ -48,7 +48,6 @@ router.post('/add', authObj.isLoggedIn, function(req, res, next){
                     quantity: req.body.quantity || 1,
                     date: Date.now()
                 };
-                console.log(cart);
                 cart.items.push(cartItem);
                 cart.save(function(err) {
                     if (err) {
@@ -66,7 +65,7 @@ router.post('/add', authObj.isLoggedIn, function(req, res, next){
 });
 
 // update an item in the cart
-router.put('/update', authObj.isLoggedIn, function(req, res, next) {
+router.put('/edit', authObj.isLoggedIn, function(req, res, next) {
     var modifiedCartItem = {'$set': {
         'items.$.quantity': req.body.quantity,
         'items.$.size': req.body.size,
@@ -85,7 +84,6 @@ router.put('/update', authObj.isLoggedIn, function(req, res, next) {
 router.delete('/delete', authObj.isLoggedIn, function(req, res, next) {
     Cart.findOneAndUpdate({userid: req.user._id}, {$pull: {items: {_id: req.body.id}}}, function (err, cart){
         if (err) {
-            console.log(err);
             err = "Something went wrong while deleting the item from cart";
             return next(err);
         }
