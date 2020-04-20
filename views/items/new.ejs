@@ -1,0 +1,47 @@
+<%- include('../partials/header') %>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-4">
+                <img src="" id="uploaded_img"/>
+            </div>
+            <div class="col-4">
+            <h2>Add a new Item to the collection</h2>
+            <form action="/items/add" method="POST" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="itemname">Item Name</label>
+                    <input type="text" class="form-control" id="itemname" name="itemname" placeholder="Blue trousers" required>
+                </div>
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <input type="text" class="form-control" id="description" name="description" placeholder="Made with jeans material">
+                </div>
+                <div class="form-group">
+                    <label for="category">Category</label>
+                    <select class="form-control" id="category" name="category" required>
+                    <option value="none" disabled>Select category</option>
+                    <option value="shirt">Shirt</option>
+                    <option value="trousers">Trousers</option>
+                    <option value="footwear">Footwear</option>
+                    <option value="sunglasses">Sunglasses</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="price">Price</label>
+                    <div class="input-group mb-2">
+                      <div class="input-group-prepend">
+                        <div class="input-group-text">$</div>
+                      </div>
+                      <input type="number" class="form-control" id="price" name="price" min="1.0" step="0.01" placeholder="price" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="item-image">Upload item image</label>
+                    <input type="file" class="form-control-file" id="item-image" name="item-image" accept="image/*" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+            </div>
+            <div class="col-3"></div>
+        </div>
+    </div>
+<%- include('../partials/footer') %>

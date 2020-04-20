@@ -9,7 +9,7 @@
                 <p><%=item.description%></p>
                 <p>$<%=item.price%></p>
                 <% if(user){ %>
-                    <form action="/cart" method="POST">
+                    <form action="/cart/add" method="POST">
                         <input value="<%=item._id%>" type="hidden" name="id">
                         <div class="form-group">
                             <label for="size">Select size:</label>

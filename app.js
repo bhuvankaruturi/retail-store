@@ -1,5 +1,6 @@
 var express = require('express');
 var expressSession = require('express-session');
+var methodOverride = require('method-override');
 var path = require('path');
 var logger = require('morgan');
 var mongoose = require('mongoose');
@@ -25,6 +26,8 @@ app.set('view engine', 'ejs');
 
 app.use(logger('dev'));
 app.use(express.json());
+// method override to enable put and delete request
+app.use(methodOverride('_method'))
 // express-session to maintain session ids
 app.use(expressSession({
   secret: "does not matter what I set this to",

@@ -27,7 +27,7 @@ var upload = multer({ storage: storage})
 
 // items pages
 router.get('/', function(req, res, next) {
-    Item.find().populate('sizes').exec(function(err, docs){
+    Item.find({deleted: false}).populate('sizes').exec(function(err, docs){
         if (err) {
             err = "Something went wrong while fetching items";
             return next(err);
@@ -36,26 +36,43 @@ router.get('/', function(req, res, next) {
     });
 });
 
+// render a form to add a new item
+router.get('/add', authObj.isAdmin, function(req, res, next) {
+    return res.render('items/new');
+});
+
+// render a form to update a new item
+router.get('/edit/:id', authObj.isAdmin, function(req, res, next) {
+    Item.findOne({_id: req.params.id, deleted: false}, function(err, doc) {
+        if (err) {
+            err = "Something went wrong while fetching the item to be edited";
+            return next(err);
+        }
+        return res.render('items/edit', {item: doc});
+    })
+})
+
 // individual item page
 router.get('/:id', function(req, res, next) {
-    Item.findById(req.params.id).populate('sizes').exec(function(err, doc) {
+    Item.findOne({_id: req.params.id, deleted: false}).populate('sizes').exec(function(err, doc) {
         if (err) {
             err = "Something went wrong while fetching the item";
             return next(err);
         }
         return res.render('items/item', {item: doc});
     });
-})
+});
 
 // Create a new item with all item size of count 1
-router.post('/add', authObj.isAdmin, upload.single('item_image'), function(req, res, next){
+router.post('/add', authObj.isAdmin, upload.single('item-image'), function(req, res, next){
     var item = new Item({
         _id: new mongoose.Types.ObjectId(),
         itemname: req.body.itemname,
         description: req.body.description || "",
         category: req.body.category,
         price: req.body.price,
-        imageUrl: req.file.filename || 'default.jpg'
+        imageUrl: req.file ? req.file.filename : 'default.jpg',
+        deleted: false
     });
     var itemSizes = [];
     for (var size of sizes) {
@@ -84,7 +101,7 @@ router.post('/add', authObj.isAdmin, upload.single('item_image'), function(req, 
 });
 
 // Update a item
-router.put('/:id', authObj.isAdmin, upload.single('item_image'), function(req, res, next) {
+router.put('/edit/:id', authObj.isAdmin, upload.single('item-image'), function(req, res, next) {
     if (req.file) {
         if (req.body.imageUrl) {
             fs.unlink(path.join(path.resolve(__dirname, '..'), '/public/images/items/', req.body.imageUrl), function(err) {
@@ -117,24 +134,24 @@ router.put('/:id/:size', authObj.isAdmin, function(req, res, next) {
     });
 })
 
-// Delete a item
-router.delete('/:id', authObj.isAdmin, function(req, res, next) {
+// Delete a item - soft deletes the item
+router.delete('/delete/:id', authObj.isAdmin, function(req, res, next) {
     Item.findById(req.params.id, function(err, doc){
         if (err) {
             err = "Something went wrong while deleting the item";
             return next(err);
         }
-        if (doc.get('imageUrl') && doc.get('imageUrl') !== 'default.jpg') {
-            fs.unlink(path.join(path.resolve(__dirname, '..'), '/public/images/items/', doc.get('imageUrl')), function(err) {
-                if (err) console.log(err);
-            });
-        }   
-        doc.remove(function(err) {
+        // if (doc.get('imageUrl') && doc.get('imageUrl') !== 'default.jpg') {
+        //     fs.unlink(path.join(path.resolve(__dirname, '..'), '/public/images/items/', doc.get('imageUrl')), function(err) {
+        //         if (err) console.log(err);
+        //     });
+        // }   
+        doc.update({deleted: true}, function(err) {
             if (err) {
                 err = "Something went wrong while deleting the item";
                 return next(err);
             }
-            res.redirect('/items');
+            return res.status(302).json({message: "Item deleted successfully"})
         })
     });
 })

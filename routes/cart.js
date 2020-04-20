@@ -1,19 +1,20 @@
 var express = require('express');
 var authObj = require('../util/auth');
+var moment = require('moment');
 var Cart = require('../models/cart');
 var Item = require('../models/item');
 var History = require('../models/history');
 // express router
 var router = express.Router();
 
-// TODO: replace json response with res.render
+// user cart page
 router.get('/', authObj.isLoggedIn, function(req, res, next){
-   Cart.findOne({userid: req.user._id}, function(err, doc){
+   Cart.findOne({userid: req.user._id}).populate('items.itemid').exec(function(err, doc){
         if (err) {
             err = "Something went wrong while retrieving user's cart details";
             return next(err);
         }
-        return res.status(200).json(doc);
+        return res.render('cart/index', {cart: doc, moment: moment});
    });
 });
 
@@ -29,7 +30,7 @@ router.get('/history', authObj.isLoggedIn, function(req, res, next){
 });
 
 // add an item to cart
-router.post('/', authObj.isLoggedIn, function(req, res, next){
+router.post('/add', authObj.isLoggedIn, function(req, res, next){
     Item.exists({_id: req.body.id}, function(err, exists) {
         if (err) {
             err = "Item not found";
@@ -47,6 +48,7 @@ router.post('/', authObj.isLoggedIn, function(req, res, next){
                     quantity: req.body.quantity || 1,
                     date: Date.now()
                 };
+                console.log(cart);
                 cart.items.push(cartItem);
                 cart.save(function(err) {
                     if (err) {
@@ -64,7 +66,7 @@ router.post('/', authObj.isLoggedIn, function(req, res, next){
 });
 
 // update an item in the cart
-router.put('/', authObj.isLoggedIn, function(req, res, next) {
+router.put('/update', authObj.isLoggedIn, function(req, res, next) {
     var modifiedCartItem = {'$set': {
         'items.$.quantity': req.body.quantity,
         'items.$.size': req.body.size,
@@ -80,14 +82,14 @@ router.put('/', authObj.isLoggedIn, function(req, res, next) {
 });
 
 // delete an item in the cart
-router.delete('/', authObj.isLoggedIn, function(req, res, next) {
+router.delete('/delete', authObj.isLoggedIn, function(req, res, next) {
     Cart.findOneAndUpdate({userid: req.user._id}, {$pull: {items: {_id: req.body.id}}}, function (err, cart){
         if (err) {
             console.log(err);
             err = "Something went wrong while deleting the item from cart";
             return next(err);
         }
-        res.redirect('/cart');
+        return res.status(200).json({message: 'Item deleted'});
     });
 });
 

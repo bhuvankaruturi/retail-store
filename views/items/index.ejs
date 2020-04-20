@@ -4,10 +4,16 @@
             <% items.forEach(item => { %>
                 <div class="card" style="width: 15rem;">
                     <img src="/images/items/<%=item.imageUrl%>" class="card-img-top img-thumbnail" alt="item image">
-                    <div class="card-body">
-                      <h5 class="card-title"><%=item.itemname%></h5>
-                      <p class="card-text"><%=item.description%></p>
-                      <a href="/items/<%=item._id%>" class="btn btn-primary">View</a>
+                    <div class="card-body d-flex flex-column align-items-start">
+                        <h5 class="card-title"><%=item.itemname%></h5>
+                        <p class="card-text"><%=item.description%></p>
+                        <div class="d-flex flex-row">
+                            <a href="/items/<%=item._id%>" class="mt-auto p-2 btn btn-primary">View</a>
+                            <% if (user && user.type === 'admin') {%>
+                                <a href="/items/edit/<%=item._id%>" class="mt-auto p-2 btn btn-primary">Edit</a>
+                                <a href="/items/delete/<%=item._id%>" class="mt-auto p-2 btn btn-danger">Delete</a>
+                            <%}%>
+                        </div>
                     </div>
                 </div>
             <% }) %>

@@ -18,3 +18,13 @@
 .details {
   padding-top: 3rem;
 }
+
+.cart-img {
+  width: 135px;
+  height: 135px;
+}
+
+#uploaded_img {
+  max-width: 200px;
+  max-height: 250px;
+}
