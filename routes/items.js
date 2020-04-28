@@ -48,11 +48,12 @@ router.get('/', function(req, res, next) {
                     err = "Something went wrong while counting items";
                     return next(err);
                 }
-                console.log("filter + " + clause.category);
                 return res.render('items/index', {
                         items: docs, 
                         page: page, 
-                        maxPages: Math.ceil(count/itemsPerPage)
+                        maxPages: Math.ceil(count/itemsPerPage),
+                        filter: req.query.filter,
+                        search: req.query.search
                     });
             });
     });
@@ -129,7 +130,7 @@ router.put('/edit/:id', authObj.isAdmin, upload.single('item-image'), function(r
             err = "Something went wrong while updating the item";
             return next(err);
         }
-        return res.redirect('/items');
+        return res.redirect('/items/view/' + req.params.id);
     });
 });
 

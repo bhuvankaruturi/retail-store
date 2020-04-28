@@ -1,27 +1,92 @@
 <%- include('../partials/header') %>
-    <h1>Cart</h1>
-    <div class="container">
-        <% cart.items.forEach(item => { %>
-            <% i = item.itemid %>
-            <div class="card mb-3" style="max-width: 540px; margin: auto">
-                <div class="row no-gutters">
-                  <div class="col-md-4">
-                    <img src="/images/items/<%=i.imageUrl%>" class="card-img" alt="...">
-                  </div>
-                  <div class="col-md-8">
-                    <div class="card-body">
-                      <div class="d-flex justify-content-between">
-                        <h5 class="card-title"><%=i.itemname%></h5>
-                        <button class="btn btn-sm del-cart" __val="<%=item._id%>"><img src="/icons/bin.svg" class="icon" alt="del"/></button>
+    <div class="container pt-5">
+        <h1 class="text-center mt-1">Cart</h1>
+        <% if (cart.items.length == 0) { %>
+          <h1 class="text-center mt-5">It is empty here. Add some styles to the cart</h1>
+        <% } else { %>
+          <div class="row justify-content-between">
+            <div class="col-6 mt-2">
+              <% cart.items.forEach(item => { %>
+                  <% i = item.itemid %>
+                  <div class="card mb-3" style="max-width: 540px; margin: auto;">
+                      <div class="row no-gutters">
+                        <div class="col-md-4">
+                          <img src="/images/items/<%=i.imageUrl%>" class="card-img w-100" alt="...">
+                        </div>
+                        <div class="col-md-8">
+                          <div class="card-body">
+                            <div class="d-flex justify-content-between">
+                              <h5 class="card-title"><%=i.itemname%></h5>
+                              <button class="btn btn-sm del-cart" __val="<%=item._id%>"><img src="/icons/bin.svg" class="icon" alt="del"/></button>
+                            </div>
+                            <p class="card-text mb-1"><small class="text-muted"><%=moment(item.date).format('MMM-DD-YYYY')%></small></p>
+                            <p class="card-text mb-0">Size: <%=item.size%></p>
+                            <form class="form-inline mt-1" action="/cart/edit?_method=PUT" method="POST">
+                              <input type="hidden" value="<%=item._id%>" name="id"><input type="hidden" value="<%=item.size%>" name="size">
+                              <label for="quantity">Quantity: </label>
+                              <input class="form-control form-control-sm mx-1" type="number" name="quantity" min="1" max="5" value="<%=item.quantity%>" required>
+                              <button class="btn btn-primary btn-sm">Edit</button>
+                            </form>
+                            <p class="card-text mt-2">Total: <%=item.quantity%> x $<%=i.price%> = <span class="price-lite">$<%=item.quantity * i.price%></span></p>
+                          </div>
+                        </div>
                       </div>
-                      <p class="card-text"><small class="text-muted"><%=moment(item.date).format('MMM-DD-YYYY')%></small></p>
-                      <p class="card-text"><%=i.description%></p>
-                      <p class="card-text">$<%=i.price%></p>
-                      <p class="card-text">Size: <%=item.size%>, Quantity: <%=item.quantity%></p>
-                    </div>
+                  </div>
+              <% }) %>
+            </div>
+            <div class="col-5">
+              <form action="/cart/purchase" method="POST">
+                <h2>Payment Information</h2>
+                <p>Total = <span class="price-lite">$<%=total%></span></p>
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label for="email">Buyer Email</label>
+                    <input type="email" class="form-control" id="email" disabled>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="fullname">Buyer's Full Name</label>
+                    <input type="text" class="form-control" id="fullname" disabled>
                   </div>
                 </div>
+                <div class="form-row">
+                  <div class="form-group col-md-4">
+                    <label for="cardname">Name on card</label>
+                    <input type="text" class="form-control" id="cardname" disabled>
+                  </div>
+                  <div class="form-group col-md-8">
+                    <label for="cardnumber">Card Number</label>
+                    <input type="text" class="form-control" id="cardnumber" disabled>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="inputAddress">Address</label>
+                  <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St" disabled>
+                </div>
+                <div class="form-group">
+                  <label for="inputAddress2">Address 2</label>
+                  <input type="text" class="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor" disabled>
+                </div>
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label for="inputCity">City</label>
+                    <input type="text" class="form-control" id="inputCity" disabled>
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label for="inputState">State</label>
+                    <select id="inputState" class="form-control" disabled>
+                      <option selected>Choose...</option>
+                      <option>...</option>
+                    </select>
+                  </div>
+                  <div class="form-group col-md-2">
+                    <label for="inputZip">Zip</label>
+                    <input type="text" class="form-control" id="inputZip" disabled>
+                  </div>
+                </div>
+                <button type="submit" class="btn btn-success">Checkout</button>
+              </form>
             </div>
-        <% }) %>
+          </div>
+        <% } %>
     </div>
 <%- include('../partials/footer') %>

@@ -4,6 +4,7 @@ var moment = require('moment');
 var Cart = require('../models/cart');
 var Item = require('../models/item');
 var History = require('../models/history');
+var User = require('../models/user');
 // express router
 var router = express.Router();
 
@@ -14,7 +15,11 @@ router.get('/', authObj.isLoggedIn, function(req, res, next){
             err = "Something went wrong while retrieving user's cart details";
             return next(err);
         }
-        return res.render('cart/index', {cart: doc, moment: moment});
+        let total = 0;
+        doc.items.forEach(item => {
+            total += item.itemid.price * item.quantity;
+        });
+        return res.render('cart/index', {cart: doc, moment: moment, total: total});
    });
 });
 
@@ -26,7 +31,7 @@ router.post('/add', authObj.isLoggedIn, function(req, res, next){
             return next(err);
         }
         if (exists) {
-            Cart.findOne({userid: req.user._id}, function(err, cart) {
+            return Cart.findOne({userid: req.user._id}, function(err, cart) {
                 if (err) {
                     err = "Something went wrong while fetching user cart";
                     return next(err);
@@ -43,7 +48,14 @@ router.post('/add', authObj.isLoggedIn, function(req, res, next){
                         err = "Something went wrong while adding item to cart";
                         return next(err);
                     }
-                    return res.redirect('/items/view/' + req.body.id);
+                    User.findOneAndUpdate({_id: req.user._id}, {$inc: {cartSize: 1}}, function(err, doc) {
+                        if (err) {
+                            err = "Something went wrong while updating cart details";
+                            return next(err);
+                        }
+                        console.log(doc);
+                        return res.redirect('/items/view/' + req.body.id);
+                    })
                 });
             });
         } else {
@@ -76,7 +88,13 @@ router.delete('/delete', authObj.isLoggedIn, function(req, res, next) {
             err = "Something went wrong while deleting the item from cart";
             return next(err);
         }
-        return res.status(200).json({message: 'Item deleted'});
+        User.findOneAndUpdate({_id: req.user._id, cartSize: {$gte: 1}}, {$inc: {cartSize: -1}}, function(err, doc) {
+            if (err) {
+                err = "Something went wrong while updating cart details";
+                return next(err);
+            }
+            return res.status(200).json({message: 'Item deleted'});
+        })
     });
 });
 
@@ -109,7 +127,13 @@ router.post('/purchase', authObj.isLoggedIn, function(req, res, next) {
                         err = "Something went wrong while adding items to history";
                         return next(err);
                     }
-                    res.redirect('/cart/history');
+                    User.findOneAndUpdate({_id: req.user._id}, {cartSize: 0}, function(err, doc) {
+                        if (err) {
+                            err = "Something went wrong while updating cart details";
+                            return next(err);
+                        }
+                        return res.redirect('/history/');;
+                    })
                 });
             });
         })

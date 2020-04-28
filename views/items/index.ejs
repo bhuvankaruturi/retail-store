@@ -1,13 +1,26 @@
 <%- include('../partials/header') %>
     <div class="container">
-        <div class="row justify-content-center space-around">
+        <div class="row justify-content-center pb-2">
+            <form class="form-inline my-2 my-lg-0" action="/items" method="GET">
+                <select class="form-control form-control-sm mr-2" id="filter" name="filter">
+                  <option value="" selected>Filter</option>
+                  <option value="shirt">Shirt</option>
+                  <option value="trousers">Trousers</option>
+                  <option value="footwear">Footwear</option>
+                  <option value="sunglasses">Sunglasses</option>
+                </select>
+                <input class="form-control form-control-sm mr-sm-2" type="search" name="search" placeholder="Search" id="search" aria-label="Search">
+                <button class="btn btn-outline-success btn-sm my-2 my-sm-0" type="submit">Search</button>
+            </form>
+        </div>
+        <div class="row justify-content-center">
             <% items.forEach(item => { %>
-                <div class="card" style="width: 15rem;">
+                <div class="card" style="width: 16rem;">
                     <img src="/images/items/<%=item.imageUrl%>" class="card-img-top img-thumbnail" alt="item image">
                     <div class="card-body d-flex flex-column align-items-start">
                         <h5 class="card-title"><%=item.itemname%></h5>
-                        <p class="card-text"><%=item.description%></p>
-                        <div class="mt-auto p-2">
+                        <p class="price-lite">$<%=item.price%></p>
+                        <div class="mx-auto mt-2">
                             <a href="/items/view/<%=item._id%>" class="btn btn-sm"><img src="/icons/view.svg" class="icon" alt="View"/></a>
                             <% if (user && user.type === 'admin') {%>
                                 <a href="/items/edit/<%=item._id%>" class="btn btn-sm"><img src="/icons/edit.svg" class="icon" alt="Edit"/></a>
@@ -18,14 +31,43 @@
                 </div>
             <% }) %>
         </div>
-        <div class="row justify-content-center space-around pagination">
+        <nav class="mt-5" aria-label="page number">
+            <ul class="pagination justify-content-center">
             <% if (page > 1) { %>
-                <span><a href="/items/?page=<%=Number(page)-1%>">< prev</a></span>
+                <li class="page-item">
+                    <a class="page-link" href="/items/?page=<%=Number(page)-1%>">Prev</a>
+                </li>
+            <% } else { %>
+                <li class="page-item disabled">
+                    <span class="page-link">Prev</span>
+                </li>
             <% } %>
-            <span><%=page%></span>
+              <li class="page-item active" aria-current="page">
+                <span class="page-link">
+                    <%=page%>
+                    <span class="sr-only">(current)</span>
+                </span>
+              </li>
             <% if (Number(page) + 1 <= Number(maxPages)) { %>
-                <span><a href="/items/?page=<%=Number(page)+1%>">next ></a></span>
+                <li class="page-item">
+                    <a class="page-link" href="/items/?page=<%=Number(page)+1%>">Next</a>
+                </li>
+            <% } else { %>
+                <li class="page-item disabled">
+                    <span class="page-link">Next</span>
+                </li>
             <% } %>
-        </div>
+            </ul>
+        </nav>
     </div>
+    <script>
+        var selectedOption = "<%=filter%>";
+        var search = "<%=search%>";
+        if (selectedOption) {
+            $('select').val(selectedOption);
+        } 
+        if (search) {
+            $('#search').val(search);
+        }
+    </script>
 <%- include('../partials/footer') %>
