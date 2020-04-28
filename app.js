@@ -13,6 +13,7 @@ var User = require('./models/user');
 var indexRouter = require('./routes/index');
 var itemsRouter = require('./routes/items');
 var cartRouter = require('./routes/cart');
+var historyRouter = require('./routes/history');
 
 // connect to database retail_store
 var mongooseOptions =  {useCreateIndex: true, useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false}
@@ -55,6 +56,7 @@ app.use(function(req, res, next) {
 app.use('/', indexRouter);
 app.use('/items', itemsRouter);
 app.use('/cart', cartRouter);
+app.use('/history', historyRouter);
 
 app.use(function(req, res, next) {
   res.status(404);

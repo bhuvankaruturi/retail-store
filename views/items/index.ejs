@@ -20,11 +20,11 @@
         </div>
         <div class="row justify-content-center space-around pagination">
             <% if (page > 1) { %>
-                <span><a href="/items/<%=Number(page)-1%>">< prev</a></span>
+                <span><a href="/items/?page=<%=Number(page)-1%>">< prev</a></span>
             <% } %>
             <span><%=page%></span>
             <% if (Number(page) + 1 <= Number(maxPages)) { %>
-                <span><a href="/items/<%=Number(page)+1%>">next ></a></span>
+                <span><a href="/items/?page=<%=Number(page)+1%>">next ></a></span>
             <% } %>
         </div>
     </div>

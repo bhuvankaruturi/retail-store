@@ -54,6 +54,11 @@
   padding-top: 2em;
 }
 
+.item-image {
+  border: 1px solid rgb(139, 135, 135);
+  border-radius: 2rem;
+}
+
 .del-cart {
   padding-top: 0em;
 }

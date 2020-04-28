@@ -22,8 +22,15 @@
             </li>
           <% } %>
           <li class="nav-item">
-            <form class="form-inline my-2 my-lg-0">
-              <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+            <form class="form-inline my-2 my-lg-0" action="/items" method="GET">
+              <select class="form-control" id="filter" name="filter">
+                <option value="" selected>Filter</option>
+                <option value="shirt">Shirt</option>
+                <option value="trousers">Trousers</option>
+                <option value="footwear">Footwear</option>
+                <option value="sunglasses">Sunglasses</option>
+              </select>
+              <input class="form-control mr-sm-2" type="search" name="search" placeholder="Search" id="search" aria-label="Search">
               <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
             </form>
           </li>

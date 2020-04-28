@@ -18,17 +18,6 @@ router.get('/', authObj.isLoggedIn, function(req, res, next){
    });
 });
 
-// TODO: replace json response with res.render
-router.get('/history', authObj.isLoggedIn, function(req, res, next){
-    History.findOne({userid: req.user._id}, function(err, doc){
-        if (err) {
-            err = "Something went wrong while retrieving user's purchase history";
-            return next(err);
-        }
-        return res.status(200).json(doc);
-    });
-});
-
 // add an item to cart
 router.post('/add', authObj.isLoggedIn, function(req, res, next){
     Item.exists({_id: req.body.id}, function(err, exists) {
@@ -54,7 +43,7 @@ router.post('/add', authObj.isLoggedIn, function(req, res, next){
                         err = "Something went wrong while adding item to cart";
                         return next(err);
                     }
-                    return res.redirect('/cart');
+                    return res.redirect('/items/view/' + req.body.id);
                 });
             });
         } else {

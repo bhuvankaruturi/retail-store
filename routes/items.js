@@ -24,21 +24,18 @@ var storage = multer.diskStorage({
 });
 var upload = multer({ storage: storage})
 
-router.get('/', function(req, res, next) {
-    return res.redirect('items/1');
-})
-
 // items pages
-router.get('/:page', function(req, res, next) {
-    if (req.params.page === 'add') {
-        return next();
-    }
-    if (isNaN(req.params.page)) {
-        return res.redirect('items/1');
-    }
+router.get('/', function(req, res, next) {
     var itemsPerPage = 4;
-    var page = Number(req.params.page) || 1;
-    Item.find({deleted: false})
+    var page = isNaN(req.query.page) ? 1 : Number(req.query.page);
+    var clause = {deleted: false};
+    if (req.query.filter && req.query.filter.trim() !== "") {
+        clause.category = req.query.filter;
+    }
+    if (req.query.search && req.query.search.trim() !== "") {
+        clause.itemname = new RegExp('.*' + req.query.search.trim() + '.*', 'i');
+    }
+    Item.find(clause)
         .skip(itemsPerPage * (page-1))
         .limit(itemsPerPage)
         .exec(function(err, docs){
@@ -46,15 +43,16 @@ router.get('/:page', function(req, res, next) {
                 err = "Something went wrong while fetching items";
                 return next(err);
             } 
-            Item.count().exec(function(err, count) {
+            Item.countDocuments(clause).exec(function(err, count) {
                 if (err) {
                     err = "Something went wrong while counting items";
                     return next(err);
                 }
+                console.log("filter + " + clause.category);
                 return res.render('items/index', {
-                        items: docs, page: 
-                        req.params.page, maxPages: 
-                        Math.ceil(count/itemsPerPage)
+                        items: docs, 
+                        page: page, 
+                        maxPages: Math.ceil(count/itemsPerPage)
                     });
             });
     });
@@ -107,7 +105,7 @@ router.post('/add', authObj.isAdmin, upload.single('item-image'), function(req, 
             err = "Something went wrong while adding items";
             return next(err);
         } 
-        return res.redirect('/items/1');
+        return res.redirect('/items');
     });
 });
 
@@ -121,12 +119,17 @@ router.put('/edit/:id', authObj.isAdmin, upload.single('item-image'), function(r
         }
         req.body.imageUrl = req.file.filename;
     }
+    req.body.sizes = {};
+    for (let size of sizes) {
+        req.body.sizes[size] = req.body[size];
+        delete req.body[size];
+    }
     Item.findByIdAndUpdate(req.params.id, req.body, function(err, item){
         if (err) {
             err = "Something went wrong while updating the item";
             return next(err);
         }
-        return res.redirect('/items/1');
+        return res.redirect('/items');
     });
 });
 
@@ -146,7 +149,7 @@ router.put('/edit/:id/sizes', authObj.isAdmin, function(req, res, next) {
             err = "Something went wrong while updating item count";
             return next(err);
         }
-        return res.redirect('/items/1');
+        return res.redirect('/items');
     });
 })
 
