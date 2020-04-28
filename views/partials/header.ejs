@@ -10,7 +10,7 @@
   </head>
   <body>
     <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light">
-      <a class="navbar-brand" href="/">Dress-Up</a>
+      <a class="navbar-brand" href="/">Dress Up</a>
       <div class="collapse navbar-collapse" id="navbarNavDropdown">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item active">
@@ -21,24 +21,19 @@
               <a class="nav-link" href="/items/add">Add item</a>
             </li>
           <% } %>
-          <li class="nav-item">
-            <form class="form-inline my-2 my-lg-0" action="/items" method="GET">
-              <select class="form-control" id="filter" name="filter">
-                <option value="" selected>Filter</option>
-                <option value="shirt">Shirt</option>
-                <option value="trousers">Trousers</option>
-                <option value="footwear">Footwear</option>
-                <option value="sunglasses">Sunglasses</option>
-              </select>
-              <input class="form-control mr-sm-2" type="search" name="search" placeholder="Search" id="search" aria-label="Search">
-              <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-            </form>
-          </li>
         </ul>
         <div class="navbar-nav">
         <% if (user) {%>
           <span class="nav-item">
-            <a class="nav-link" href="/cart">Cart</a>
+            <a class="nav-link btn" href="/history">
+              History
+            </a>
+          </span>
+          <span class="nav-item">
+            <a class="nav-link btn" href="/cart">
+              Cart
+              <span class="badge badge-light"><%=user.cartSize%></span>
+            </a>
           </span>
           <span class="navbar-nav nav-item">
             <span class="navbar-text">Signed in as <%=user.username%></a>

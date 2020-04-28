@@ -2,7 +2,7 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-6">
-                <img src="/images/items/<%=item.imageUrl%>" class="item-image" id="uploaded_img"/>
+                <img src="/images/items/<%=item.imageUrl%>" class="w-100 h-auto" id="uploaded_img"/>
             </div>
             <div class="col-6">
             <h2>Edit item</h2>
@@ -13,13 +13,13 @@
                 </div>
                 <div class="form-group">
                     <label for="description">Description</label>
-                    <input type="text" class="form-control" id="description" value="<%=item.description%>" name="description" placeholder="Made with jeans material">
+                    <textarea class="form-control" id="description" name="description" placeholder="Made with jeans material" rows=3><%=item.description%></textarea>
                 </div>
                 <div class="row">
                     <div class="col">
                         <div class="form-group">
                             <label for="category">Category</label>
-                            <select class="form-control" id="category" name="category" value="<%=item.category%>" required>
+                            <select class="form-control" id="category" name="category" required>
                             <option value="none" disabled>Select category</option>
                             <option value="shirt">Shirt</option>
                             <option value="trousers">Trousers</option>
@@ -62,13 +62,20 @@
                         <input type="number" class="form-control" id="XS" name="XS" value="<%=item.sizes.XS%>" min="1" max="200">
                     </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group mt-3">
                     <label for="item-image">Upload item image</label>
                     <input type="file" class="form-control-file" id="item-image" name="item-image" value="<%=item.imageUrl%>" accept="image/*">
                 </div>
                 <button type="submit" class="btn btn-primary">Save</button>
+                <a class="btn btn-danger" href="/items/view/<%=item._id%>">Cancel</a>
             </form>
             </div>
         </div>
     </div>
+    <script>
+        var value="<%=item.category%>";
+        if (value) {
+            $('#category').val(value);
+        }
+    </script>
 <%- include('../partials/footer') %>

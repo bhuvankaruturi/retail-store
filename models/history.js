@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 
-var Purchase = mongoose.Schema({
+var History = mongoose.Schema({
     userid: {type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true},
     items: [
         {
@@ -12,4 +12,4 @@ var Purchase = mongoose.Schema({
     ]
 });
 
-module.exports = mongoose.model('Purchase', Purchase);
+module.exports = mongoose.model('History', History);
