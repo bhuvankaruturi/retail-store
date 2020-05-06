@@ -14,6 +14,18 @@ router.get('/signup', function(req, res) {
   return res.render('auth/signup');
 });
 
+// check username
+router.get('/check', function(req, res) {
+  if (req.query.username) {
+    User.findOne({username: req.query.username}, function(err, doc) {
+      if (doc) return res.status(200).json({"valid": false});
+      else return res.status(200).json({"valid": true});
+    })
+  } else {
+    return res.status(200).json({"valid": true});
+  }
+})
+
 /* Register a user */
 router.post('/signup', function(req, res) {
   let user = new User({

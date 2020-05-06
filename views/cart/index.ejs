@@ -1,6 +1,6 @@
 <%- include('../partials/header') %>
     <div class="container pt-5">
-        <h1 class="text-center mt-1">Cart</h1>
+        <h1 class="text-center mt-2">Cart</h1>
         <% if (cart.items.length == 0) { %>
           <h1 class="text-center mt-5">It is empty here. Add some styles to the cart</h1>
         <% } else { %>
@@ -27,7 +27,7 @@
                               <input class="form-control form-control-sm mx-1" type="number" name="quantity" min="1" max="5" value="<%=item.quantity%>" required>
                               <button class="btn btn-primary btn-sm">Edit</button>
                             </form>
-                            <p class="card-text mt-2">Total: <%=item.quantity%> x $<%=i.price%> = <span class="price-lite">$<%=item.quantity * i.price%></span></p>
+                            <p class="card-text mt-2">Total: <%=item.quantity%> x $<%=i.price%> = <span class="price-lite">$<%=(item.quantity * i.price).toFixed(2)%></span></p>
                           </div>
                         </div>
                       </div>
@@ -37,7 +37,7 @@
             <div class="col-5">
               <form action="/cart/purchase" method="POST">
                 <h2>Payment Information</h2>
-                <p>Total = <span class="price-lite">$<%=total%></span></p>
+                <p>Total = <span class="price-lite">$<%=total.toFixed(2)%></span></p>
                 <div class="form-row">
                   <div class="form-group col-md-6">
                     <label for="email">Buyer Email</label>

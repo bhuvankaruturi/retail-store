@@ -106,7 +106,7 @@ router.post('/add', authObj.isAdmin, upload.single('item-image'), function(req, 
             err = "Something went wrong while adding items";
             return next(err);
         } 
-        return res.redirect('/items');
+        return res.redirect('/items/view/' + item._id);
     });
 });
 
@@ -171,7 +171,7 @@ router.delete('/delete/:id', authObj.isAdmin, function(req, res, next) {
                 err = "Something went wrong while deleting the item";
                 return next(err);
             }
-            return res.status(302).json({message: "Item deleted successfully"})
+            return res.redirect('/items');
         })
     });
 })

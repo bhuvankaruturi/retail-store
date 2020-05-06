@@ -9,7 +9,8 @@ router.get('/', authObj.isLoggedIn, function(req, res, next){
             err = "Something went wrong while retrieving user's purchase history";
             return next(err);
         }
-        return res.render('history/index', {history: doc, moment: moment});
+        let history = doc ? doc : {items: []};
+        return res.render('history/index', {history: history, moment: moment});
     });
 });
 

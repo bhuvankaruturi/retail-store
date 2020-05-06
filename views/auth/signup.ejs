@@ -1,11 +1,13 @@
 <%- include('../partials/header') %>
     <div class="container">
+        <h3 style="text-align: center;">Please sign up</h3>
         <div class="row">
-        <form class="auth-form col-4" action="/signup" method="POST">
+        <form class="auth-form col-4" action="/signup" method="POST" onsubmit="validate(event)">
             <div class="form-group">
                 <label for="username">User Name</label>
-                <input type="text" class="form-control" id="username" aria-describedby="usernamehelp" placeholder="johndoe" name="username">
+                <input type="text" class="form-control" id="username" aria-describedby="usernamehelp" placeholder="johndoe" name="username" onchange="handleUsernameChange(event)">
                 <small id="usernamehelp" class="form-text text-muted">This will identify you</small>
+                <small id="usernameerror"></small>
             </div>
             <div class="form-group">
                 <label for="firstname">First Name</label>
@@ -17,7 +19,10 @@
             </div>
             <div class="form-group">
                 <label for="password">Password</label>
-                <input type="password" class="form-control" id="password" name="password">
+                <div>
+                    <input type="password" class="form-control" id="password" name="password" onkeydown="analyze(event)">
+                    <small id="error"></small>
+                </div>
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>

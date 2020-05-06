@@ -1,6 +1,9 @@
 <%- include('../partials/header') %>
-    <h1>History</h1>
     <div class="container">
+            <h1 class="text-center mt-1 mb-3">History</h1>
+            <% if(history.items.length == 0) {%>
+              <h1 class="text-center mt-5">You have not bought any items yet!</h1>
+            <% } %>
             <% history.items.forEach(item => { %>
                 <% i = item.itemid %>
                 <div class="card mb-3" style="max-width: 540px; margin: auto">
