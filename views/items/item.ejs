@@ -6,9 +6,17 @@
             </div>
             <div class="col-6 details">
                 <h2><%=item.itemname%></h2>
+                <% if(user && user.type == 'admin') { %>
+                    <a href="/items/edit/<%=item._id%>" class="btn btn-sm btn-warning">Edit</a>
+                    <% if (!item.deleted) { %>
+                        <form class="form-inline" action="/items/delete/<%=item._id%>?_method=DELETE" method="POST" style="display: inline;">
+                            <button class="btn btn-sm btn-danger ml-2">Delete</button>
+                        </form>
+                    <% } %>
+                <% } %>
                 <p class="lead"><%=item.description%></p>
                 <p>Price: <span class="price">$<%=item.price%></span></p>
-                <% if(user){ %>
+                <% if(user && !item.deleted){ %>
                     <form class="mt-2" action="/cart/add" method="POST">
                         <input value="<%=item._id%>" type="hidden" name="id">
                         <label for="size">Select size:</label>

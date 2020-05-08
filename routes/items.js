@@ -29,6 +29,7 @@ router.get('/', function(req, res, next) {
     var itemsPerPage = 4;
     var page = isNaN(req.query.page) ? 1 : Number(req.query.page);
     var clause = {deleted: false};
+    if (req.user && req.user.type === 'admin') clause = {};
     if (req.query.filter && req.query.filter.trim() !== "") {
         clause.category = req.query.filter;
     }
@@ -66,22 +67,28 @@ router.get('/add', authObj.isAdmin, function(req, res, next) {
 
 // render a form to update a new item
 router.get('/edit/:id', authObj.isAdmin, function(req, res, next) {
-    Item.findOne({_id: req.params.id, deleted: false}, function(err, doc) {
+    let clause = {_id: req.params.id, deleted: false};
+    if (req.user && req.user.type === 'admin') delete clause.deleted;
+    Item.findOne(clause, function(err, doc) {
         if (err) {
             err = "Something went wrong while fetching the item to be edited";
             return next(err);
         }
+        if (!doc) return res.redirect('/items/');
         return res.render('items/edit', {item: doc});
     })
 })
 
 // individual item page
 router.get('/view/:id', function(req, res, next) {
-    Item.findOne({_id: req.params.id, deleted: false}, function(err, doc) {
+    let clause = {_id: req.params.id, deleted: false};
+    if (req.user && req.user.type === 'admin') delete clause.deleted;
+    Item.findOne(clause, function(err, doc) {
         if (err) {
             err = "Something went wrong while fetching the item";
             return next(err);
         }
+        if (!doc) return res.redirect('/items/');
         return res.render('items/item', {item: doc});
     });
 });
@@ -99,7 +106,7 @@ router.post('/add', authObj.isAdmin, upload.single('item-image'), function(req, 
         sizes: {}
     });
     for (var size of sizes) {
-        item.sizes[size] = 1;
+        item.sizes[size] = req.body.size ? req.body.size : 1;
     }
     item.save(function(err) {
         if (err) {
@@ -125,6 +132,10 @@ router.put('/edit/:id', authObj.isAdmin, upload.single('item-image'), function(r
         req.body.sizes[size] = req.body[size];
         delete req.body[size];
     }
+    if (req.body.restore) {
+        if (req.body.restore == 'on') req.body.deleted = false;
+    }
+    console.log(req.body);
     Item.findByIdAndUpdate(req.params.id, req.body, function(err, item){
         if (err) {
             err = "Something went wrong while updating the item";
@@ -145,7 +156,7 @@ router.put('/edit/:id/sizes', authObj.isAdmin, function(req, res, next) {
         err = "Bad request. Must contain item sizes";
         return res.status(400).json({err});
     }
-    Item.findOneAndUpdate({itemid: req.params.id, deleted: false}, {sizes: req.body.sizes}, function(err, size) {
+    Item.findOneAndUpdate({itemid: req.params.id}, {sizes: req.body.sizes}, function(err, size) {
         if (err) {
             err = "Something went wrong while updating item count";
             return next(err);

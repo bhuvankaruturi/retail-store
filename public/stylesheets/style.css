@@ -20,7 +20,6 @@ body, html {
   /* Center and scale the image nicely */
   background-position: center;
   background-size: cover;
-  text-align: center;
   background: rgb(214,223,166);
   background: linear-gradient(90deg, rgba(214,223,166,1) 1%, rgba(207,240,214,1) 59%);
 }

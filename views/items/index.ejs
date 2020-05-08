@@ -12,11 +12,11 @@
                 <input class="form-control form-control-sm mr-sm-2" type="search" name="search" placeholder="Search" id="search" aria-label="Search">
                 <button class="btn btn-outline-success btn-sm my-2 my-sm-0" type="submit">Search</button>
                 <% if (filter || search) { %>
-                    <a href="/items/" class="btn btn-outline-action btn-sm my-2 my-sm-0">Clear</a>
+                    <a href="/items/" class="btn btn-outline-action btn-sm my-2 my-sm-0 ml-1">Clear</a>
                 <% } %>
             </form>
         </div>
-        <div class="row justify-content-center">
+        <div class="row justify-content-center mt-1">
             <% items.forEach(item => { %>
                 <div class="card" style="width: 16rem;">
                     <img src="/images/items/<%=item.imageUrl%>" class="card-img-top img-thumbnail" alt="item image">

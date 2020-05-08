@@ -7,6 +7,7 @@ var mongoose = require('mongoose');
 var passport = require('passport');
 var bodyParser = require('body-parser');
 var LocalStrategy = require('passport-local');
+var flash = require('connect-flash');
 var User = require('./models/user');
 
 // Routes import
@@ -46,6 +47,9 @@ app.use(passport.session());
 passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
+
+// flash
+app.use(flash());
 
 // populate res.locals to use them in ejs templates
 app.use(function(req, res, next) {

@@ -64,14 +64,21 @@ router.post('/signup', function(req, res) {
 
 // login page
 router.get('/login', function(req, res) {
-  return res.render('auth/login');
+  return res.render('auth/login', {flashMessage: req.flash('error')});
 });
 
 /* Authenticate and login a user */
-router.post('/login', function(req, res) {
-  let options = {successRedirect: '/items', failureRedirect: '/login'}
-  passport.authenticate('local', options)(req, res);
-});
+// router.post('/login', function(req, res) {
+//   let options = {successRedirect: '/items', failureRedirect: '/login'}
+//   passport.authenticate('local', options)(req, res);
+// });
+router.post('/login', 
+  passport.authenticate('local', {
+    successRedirect: '/items', 
+    failureRedirect: '/login',
+    failureFlash: 'Invalid username or password.',
+  })
+);
 
 /* Logout a user */
 router.get('/logout', function(req, res) {

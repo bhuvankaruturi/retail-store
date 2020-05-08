@@ -1,0 +1,194 @@
+[
+    {
+        "imageUrl" : "item_image-1587252285695-925698973.jpg",
+        "sizes" : {
+            "XL" : 10,
+            "L" : 15,
+            "M" : 15,
+            "S" : 20,
+            "XS" : 10
+        },
+        "itemname" : "Red shirt 101",
+        "description" : "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga.",
+        "category" : "shirt",
+        "price" : 27.89,
+        "deleted" : false,
+        "__v" : 0
+    },
+    {
+        "imageUrl" : "item-image-1588084432625-30684333.jpg",
+        "sizes" : {
+            "XL" : 1,
+            "L" : 2,
+            "M" : 1,
+            "S" : 1,
+            "XS" : 1
+        },
+        "itemname" : "Blue Shirt 102",
+        "description" : "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusaytium dolorenque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.",
+        "category" : "shirt",
+        "price" : 29.99,
+        "deleted" : false,
+        "__v" : 0
+    },
+    {
+        "imageUrl" : "item-image-1588090757740-608198370.jpg",
+        "deleted" : false,
+        "sizes" : {
+            "XL" : 1,
+            "L" : 1,
+            "M" : 1,
+            "S" : 1,
+            "XS" : 1
+        },
+        "itemname" : "Black trousers",
+        "description" : "Nulla ut porta neque, sit amet rhoncus mi. Quisque lacus erat, porttitor sed lectus tincidunt, volutpar lobortis nibh. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas tristique velit mi. Aenean aliquam ornare interdum. Duis nisi lorem, blandit ac vehicula accumsan, consectetur quis lorem.",
+        "category" : "trousers",
+        "price" : 49.99,
+        "__v" : 0
+    },
+    {
+        "imageUrl" : "item-image-1587398874326-582376543.jpg",
+        "deleted" : true,
+        "sizes" : {
+            "XL" : 1,
+            "L" : 1,
+            "M" : 1,
+            "S" : 1,
+            "XS" : 1
+        },
+        "itemname" : "Cool shades 1",
+        "description" : "Integer dolor ex, laoreet vitae ante ac, ullamcorper pharetra ante. Mauris ac nisl a augue sollicitudin tempor. Integer finibus sodales vehicula. Suspendisse vel consectetur sem, non ullamcorper nisl. Nulla ut turpis quis sem dignissim pharetra vel sit amet nulla. Duis vel facilisis risus. Morbi rutrum tellus facilisis blandit volutpat.",
+        "category" : "sunglasses",
+        "price" : 37.89,
+        "__v" : 0
+    },
+    {
+        "sizes" : {
+            "XL" : 1,
+            "L" : 1,
+            "M" : 1,
+            "S" : 1,
+            "XS" : 1
+        },
+        "imageUrl" : "item-image-1587407056708-594876144.jpg",
+        "deleted" : false,
+        "itemname" : "Green shirt",
+        "description" : "Proin non molestie est. Proin fringilla ex mauris, sed semper nulla luctus sed. Morbi aliquet id augue vitae pellentesque. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut eleifend luctus vulputate. Integer mollis metus odio, nec ullamcorper dolor aliquet sit amet. Aliquam aliquet suscipit iaculis. Nam cursus faucibus nunc consectetur sollicitudin. Vestibulum pharetra quis erat eget maximus. Praesent eu diam eu lorem gravida gravida.",
+        "category" : "shirt",
+        "price" : 14.99,
+        "__v" : 0
+    },
+    {
+        "sizes" : {
+            "XL" : 1,
+            "L" : 4,
+            "M" : 1,
+            "S" : 20,
+            "XS" : 1
+        },
+        "imageUrl" : "item-image-1587420983277-593553424.jpg",
+        "deleted" : false,
+        "itemname" : "Running shoes - Olive Green",
+        "description" : "Nam ornare purus sed pellentesque blandit. Ut mollis porta ligula et euismod. Pellentesque facilisis enim sit amet consectetur porttitor. Aenean porta convallis nisi, sit amet maximus felis pellentesque tincidunt. Maecenas faucibus sem sed arcu lobortis tincidunt. Etiam porta elit eros, a lacinia velit egestas quis. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Curabitur ut nisi ut lorem interdum sodales.",
+        "category" : "footwear",
+        "price" : 59.49,
+        "__v" : 0
+    },
+    {
+        "sizes" : {
+            "XL" : 1,
+            "L" : 1,
+            "M" : 1,
+            "S" : 1,
+            "XS" : 1
+        },
+        "imageUrl" : "item-image-1588717874220-300781798.jpg",
+        "deleted" : false,
+        "itemname" : "Another Blue Shirt",
+        "description" : "Vestibulum nulla leo, laoreet eget consectetur in, lacinia ac neque. Vestibulum blandit pharetra quam. Ut vehicula sapien in nisi dapibus suscipit. Ut a posuere massa. Pellentesque consectetur, arcu in sollicitudin fringilla, augue diam hendrerit est, ac dignissim diam sapien vel mauris. Ut et nulla nec mi consectetur imperdiet ac in turpis. Donec ultricies sit amet augue nec rutrum. Aliquam tempus fermentum dui vitae egestas. Cras in ligula et metus dictum sodales vel non velit. Maecenas accumsan lacus eget porta accumsan.",
+        "category" : "shirt",
+        "price" : 25.49,
+        "__v" : 0
+    },
+    {
+        "sizes" : {
+            "XL" : 1,
+            "L" : 1,
+            "M" : 1,
+            "S" : 1,
+            "XS" : 1
+        },
+        "imageUrl" : "item-image-1588732765942-511430844.jpg",
+        "deleted" : false,
+        "itemname" : "Another Red Shirt",
+        "description" : "Vestibulum nulla leo, laoreet eget consectetur in, lacinia ac neque. Vestibulum blandit pharetra quam. Ut vehicula sapien in nisi dapibus suscipit. Ut a posuere massa. Pellentesque consectetur, arcu in sollicitudin fringilla, augue diam hendrerit est, ac dignissim diam sapien vel mauris. Ut et nulla nec mi consectetur imperdiet ac in turpis. Donec ultricies sit amet augue nec rutrum. Aliquam tempus fermentum dui vitae egestas. Cras in ligula et metus dictum sodales vel non velit. Maecenas accumsan lacus eget porta accumsan.",
+        "category" : "shirt",
+        "price" : 18.99,
+        "__v" : 0
+    },
+    {
+        "sizes" : {
+            "XL" : 1,
+            "L" : 1,
+            "M" : 1,
+            "S" : 1,
+            "XS" : 1
+        },
+        "imageUrl" : "item-image-1588719583367-943805828.jpg",
+        "deleted" : false,
+        "itemname" : "Red Shoe 201",
+        "description" : "Aenean quis arcu nec justo condimentum dictum nec sit amet nisl. Aenean lectus ante, feugiat sit amet tincidunt vel, pretium eget urna. Nullam sit amet felis consectetur, sodales leo nec, sollicitudin odio. Nunc lacus libero, interdum facilisis gravida et, molestie at sapien. Nullam dapibus tortor eget pellentesque consequat. Nam at viverra nulla, laoreet elementum est.",
+        "category" : "footwear",
+        "price" : 59.99,
+        "__v" : 0
+    },
+    {
+        "sizes" : {
+            "XL" : 1,
+            "L" : 1,
+            "M" : 1,
+            "S" : 1,
+            "XS" : 1
+        },
+        "imageUrl" : "item-image-1588719748406-191301700.png",
+        "deleted" : false,
+        "itemname" : "Running Shoe - Black",
+        "description" : "Aenean quis arcu nec justo condimentum dictum nec sit amet nisl. Aenean lectus ante, feugiat sit amet tincidunt vel, pretium eget urna. Nullam sit amet felis consectetur, sodales leo nec, sollicitudin odio. Nunc lacus libero, interdum facilisis gravida et, molestie at sapien. Nullam dapibus tortor eget pellentesque consequat. Nam at viverra nulla, laoreet elementum est.",
+        "category" : "footwear",
+        "price" : 49.99,
+        "__v" : 0
+    },
+    {
+        "sizes" : {
+            "XL" : 1,
+            "L" : 1,
+            "M" : 1,
+            "S" : 1,
+            "XS" : 1
+        },
+        "imageUrl" : "item-image-1588724668138-184183766.jpg",
+        "deleted" : false,
+        "itemname" : "Cargo Shorts - Men",
+        "description" : "Vivamus accumsan rutrum lorem, eget gravida metus lobortis vitae. Morbi et varius leo. Praesent aliquam massa eu ipsum iaculis, a rhoncus nulla vulputate. Cras ullamcorper libero ac felis bibendum, vitae rhoncus nisi accumsan. Donec dapibus sapien luctus tortor interdum molestie. Nulla facilisi. Aenean mi justo, feugiat sit amet venenatis eget, vestibulum et dui.",
+        "category" : "trousers",
+        "price" : 15.49,
+        "__v" : 0
+    },
+    {
+        "sizes" : {
+            "XL" : 1,
+            "L" : 1,
+            "M" : 1,
+            "S" : 1,
+            "XS" : 1
+        },
+        "imageUrl" : "item-image-1588732418823-303665695.jpg",
+        "deleted" : false,
+        "itemname" : "Casual Shirt - Blue",
+        "description" : "Aliquam imperdiet nec nibh ut aliquam. Cras odio ex, tincidunt aliquam tristique sit amet, maximus non nibh. Nunc congue ac ipsum ac imperdiet. Fusce egestas sollicitudin commodo. Aliquam sit amet imperdiet quam. Donec non placerat erat. Nulla facilisi. Sed pharetra congue tortor, nec maximus est blandit eu. Nullam ut turpis diam. Vestibulum ut sagittis nisi. Ut ut sem risus. Cras ut viverra urna. Cras sit amet finibus nibh.",
+        "category" : "shirt",
+        "price" : 34.99,
+        "__v" : 0
+    }
+]

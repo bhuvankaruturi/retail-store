@@ -5,6 +5,7 @@ const handleUsernameChange = function(event) {
         let usernameerror = document.getElementById('usernameerror');
         usernameerror.style.display = "none";
         usernameerror.innerHTML = "";
+        document.getElementById('username').classList.remove('is-invalid');
     }
 }
 
@@ -21,9 +22,11 @@ const validateUsername = function(username) {
             if (!response.valid) {
                 usernameerror.style.display = "block";
                 usernameerror.innerHTML = "username " + username + " already exists";
+                document.getElementById('username').classList.add('is-invalid');
             } else {
                 usernameerror.style.display = "none";
                 usernameerror.innerHTML = "";
+                document.getElementById('username').classList.remove('is-invalid');
             }
         }
     });
@@ -41,12 +44,18 @@ const analyze = function(event) {
     let errorDiv = document.getElementById('error');
     errorDiv.innerHTML = null;
     let value = event.target.value;
-    if (value.trim() == "") return;
-    if(strongRegex.test(value)) {
+    if (value.trim() == "")  {
+        passwordStrength["border"] = "1px solid";
+        passwordStrength["border-color"] = "#ced4da";
+    }
+    else if(strongRegex.test(value)) {
+        passwordStrength["border"] = "2px solid";
         passwordStrength["border-color"] = "green";
     } else if(mediumRegex.test(value)) {
+        passwordStrength["border"] = "2px solid";
         passwordStrength["border-color"] = "orange";
     } else {
+        passwordStrength["border"] = "2px solid";
         passwordStrength["border-color"] = "red";
     }
     applyStyle();
