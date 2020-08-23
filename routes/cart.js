@@ -82,8 +82,8 @@ router.put('/edit', authObj.isLoggedIn, function(req, res, next) {
 });
 
 // delete an item in the cart
-router.delete('/delete', authObj.isLoggedIn, function(req, res, next) {
-    Cart.findOneAndUpdate({userid: req.user._id}, {$pull: {items: {_id: req.body.id}}}, function (err, cart){
+router.delete('/delete/:id', authObj.isLoggedIn, function(req, res, next) {
+    Cart.findOneAndUpdate({userid: req.user._id}, {$pull: {items: {_id: req.params.id}}}, function (err, cart){
         if (err) {
             err = "Something went wrong while deleting the item from cart";
             return next(err);
@@ -93,7 +93,7 @@ router.delete('/delete', authObj.isLoggedIn, function(req, res, next) {
                 err = "Something went wrong while updating cart details";
                 return next(err);
             }
-            return res.status(200).json({message: 'Item deleted'});
+            return res.redirect('/cart');
         })
     });
 });
